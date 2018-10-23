@@ -1,6 +1,7 @@
 package edu.epam.trainings.kokotov.dao;
 
 import java.sql.*;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 /**
@@ -10,20 +11,41 @@ import java.util.logging.Logger;
  */
 public class DatabaseConnection {
 
+    ResourceBundle resource = ResourceBundle.getBundle("dbSetings");
+
+    final String url = resource.getString("url");
+
     /** Database user name. */
-    final String user = "root";
+    final String user = resource.getString("user");
 
     /** Database user password.*/
-    final String password = "root";
+    final String password = resource.getString("password");
 
-    /** Database settings.*/
-    final String dbSetings = "?useUnicode=true" +
-            "&useJDBCCompliantTimezoneShift=true" +
-            "&useLegacyDatetimeCode=false&serverTimezone=UTC" +
-            "&useSSL=false";
+    /** Literal for add database setings */
+    final String add = resource.getString("addSetings");
 
-    /** Database user */
-    final String url = "jdbc:mysql://localhost:3306/hospitalsystem" + dbSetings;
+    /** add Unicode setings. */
+    final String useUnicode = resource.getString("useUnicode");
+
+    /** add TimezoneShift setings. */
+    final String useTimezoneShift = resource.getString("useTimezoneShift");
+
+    /** add LegacyDatetimeCode setings. */
+    final String useLegacyDatetimeCode = resource.getString("useLegacyDatetimeCode");
+
+    /** add Timezone setings. */
+    final String serverTimezone = resource.getString("serverTimezone");
+
+    /** add SSL setings. */
+    final String useSSL = resource.getString("useSSL");
+
+    /** All database setings. */
+    final String allDbSetings = add
+            +useUnicode
+            +useTimezoneShift
+            +useLegacyDatetimeCode
+            +serverTimezone
+            +useSSL;
 
     /** Connection of database.*/
     private Connection connection = null;
@@ -36,12 +58,12 @@ public class DatabaseConnection {
      *
      */
     public  void establishСonnection() throws SQLException {
-        connection= DriverManager.getConnection(url, user, password);
+        connection= DriverManager.getConnection(url + allDbSetings, user, password);
         log.info("The connection is established");;
     }
 
     /**
-     * closing connection with Database.
+     * closing connection to Database.
      *
      */
     public  void closeConnection () throws SQLException {
