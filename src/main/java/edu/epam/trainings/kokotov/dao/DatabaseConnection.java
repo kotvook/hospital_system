@@ -1,5 +1,7 @@
 package edu.epam.trainings.kokotov.dao;
 
+import edu.epam.trainings.kokotov.resource.ConfigurationManager;
+
 import java.sql.*;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
@@ -11,37 +13,35 @@ import java.util.logging.Logger;
  */
 public class DatabaseConnection {
 
-    ResourceBundle resource = ResourceBundle.getBundle("dbSetings");
-
-    final String url = resource.getString("url");
-
     /** Database user name. */
-    final String user = resource.getString("user");
+    final String user = ConfigurationManager.getProperty("user");
 
-    /** Database user password.*/
-    final String password = resource.getString("password");
+    /** Database password.*/
+    final String password = ConfigurationManager.getProperty("password");
+
+    /** Database url without settings. */
+    final String url = ConfigurationManager.getProperty("url");
 
     /** Literal for add database setings */
-    final String add = resource.getString("addSetings");
+    final String add = ConfigurationManager.getProperty("addSetings");
 
     /** add Unicode setings. */
-    final String useUnicode = resource.getString("useUnicode");
+    final String useUnicode = ConfigurationManager.getProperty("useUnicode");
 
     /** add TimezoneShift setings. */
-    final String useTimezoneShift = resource.getString("useTimezoneShift");
+    final String useTimezoneShift = ConfigurationManager.getProperty("useTimezoneShift");
 
     /** add LegacyDatetimeCode setings. */
-    final String useLegacyDatetimeCode = resource.getString("useLegacyDatetimeCode");
+    final String useLegacyDatetimeCode = ConfigurationManager.getProperty("useLegacyDatetimeCode");
 
     /** add Timezone setings. */
-    final String serverTimezone = resource.getString("serverTimezone");
+    final String serverTimezone = ConfigurationManager.getProperty("serverTimezone");
 
     /** add SSL setings. */
-    final String useSSL = resource.getString("useSSL");
+    final String useSSL = ConfigurationManager.getProperty("useSSL");
 
     /** All database setings. */
-    final String allDbSetings = add
-            +useUnicode
+    final String allDbSetings = useUnicode
             +useTimezoneShift
             +useLegacyDatetimeCode
             +serverTimezone
@@ -58,7 +58,7 @@ public class DatabaseConnection {
      *
      */
     public  void establishСonnection() throws SQLException {
-        connection= DriverManager.getConnection(url + allDbSetings, user, password);
+        connection= DriverManager.getConnection(url + add +  allDbSetings, user, password);
         log.info("The connection is established");;
     }
 
