@@ -1,6 +1,7 @@
 package edu.epam.trainings.kokotov.dao;
 
 import edu.epam.trainings.kokotov.resource.ConfigurationManager;
+import edu.epam.trainings.kokotov.resource.ResourceManager;
 
 import java.sql.*;
 import java.util.ResourceBundle;
@@ -53,13 +54,14 @@ public class DatabaseConnection {
     /** Logger */
     private static Logger log = Logger.getLogger(DatabaseConnection.class.getName());
 
+    ResourceManager manager = ResourceManager.INSTANCE;
     /**
      * establishing connection with Database.
      *
      */
     public  void establishСonnection() throws SQLException {
         connection= DriverManager.getConnection(url + add +  allDbSetings, user, password);
-        log.info("The connection is established");;
+        log.info(manager.getString("connectionON"));;
     }
 
     /**
